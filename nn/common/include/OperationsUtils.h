@@ -207,6 +207,11 @@ bool hashtableLookupPrepare(const Shape &lookupShape,
                             Shape *outputShape,
                             Shape *hitShape);
 
+bool squeezePrepare(const Shape& input,
+                    const int32_t* squeezeDims,
+                    const Shape& squeezeDimsShape,
+                    Shape* output);
+
 #define ANDROID_NN_MACRO_DISPATCH(macro)                                    \
     switch (activation) {                                                   \
         case (int32_t) FusedActivationFunc::NONE:                           \

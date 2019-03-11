@@ -39,7 +39,7 @@ const int kNumberOfPreferences = 3;
 const int kNumberOfDataTypesOEM = 2;
 
 // The number of operation types (OperationCode) defined in NeuralNetworksOEM.h.
-const int kNumberOfOperationTypesOEM = 1;
+const int kNumberOfOperationTypesOEM = 2;
 
 // The lowest number assigned to any OEM Code in NeuralNetworksOEM.h.
 const int kOEMCodeBase = 10000;

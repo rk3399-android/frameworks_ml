@@ -1239,7 +1239,28 @@ int CpuExecutor::executeOperation(const Operation& operation) {
                 svdf.Eval();
         } break;
         default:
-            nnAssert(false);
+            if((int)(operation.type)==((int)(OperationType::OEM_OPERATION)+1)){
+                if (!allParametersPresent(2, 1)) {
+                    return ANEURALNETWORKS_BAD_DATA;
+                }
+                const RunTimeOperandInfo& input = mOperands[ins[0]];
+                const RunTimeOperandInfo& squeezeDims = mOperands[ins[1]];
+
+                RunTimeOperandInfo& output = mOperands[outs[0]];
+                Shape outShape = output.shape();
+
+                success = squeezePrepare(input.shape(),
+                                         reinterpret_cast<const int32_t*>(squeezeDims.buffer),
+                                         squeezeDims.shape(),
+                                         &outShape) &&
+                          setInfoAndAllocateIfNeeded(&output, outShape) &&
+                          squeezeGeneric(input.buffer,
+                                         input.shape(),
+                                         output.buffer,
+                                         outShape);
+            } else {
+                nnAssert(false);
+            }
             break;
     }
     if (!success) {

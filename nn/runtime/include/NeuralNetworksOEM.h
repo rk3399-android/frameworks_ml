@@ -30,6 +30,8 @@ enum {
 enum {
     /** OEM specific operation. */
     ANEURALNETWORKS_OEM_OPERATION = 10000,
+
+    ANEURALNETWORKS_OEM_SQUEEZE = 10001,
 };  // extends OperationCode
 
 #endif  //  __ANDROID_API__ >= 27

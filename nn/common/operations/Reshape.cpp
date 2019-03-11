@@ -98,5 +98,12 @@ bool spaceToDepthGeneric(const uint8_t* inputData, const Shape& inputShape,
     return true;
 }
 
+bool squeezeGeneric(const void* inputData, const Shape& inputShape,
+                    void* outputData, const Shape& outputShape) {
+    size_t count = sizeOfData(inputShape.type, inputShape.dimensions);
+    memcpy(outputData, inputData, count);
+    return true;
+}
+
 } // namespace nn
 } // namespace android

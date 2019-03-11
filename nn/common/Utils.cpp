@@ -152,6 +152,7 @@ static_assert(COUNT(kOperationNames) == kNumberOfOperationTypes, "kOperationName
 
 const char* kOperationNamesOEM[kNumberOfOperationTypesOEM] = {
         "OEM_OPERATION",
+        "OEM_SQUEEZE",
 };
 
 static_assert(COUNT(kOperationNamesOEM) == kNumberOfOperationTypesOEM,

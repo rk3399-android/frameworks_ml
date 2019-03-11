@@ -31,6 +31,9 @@
 namespace android {
 namespace nn {
 
+// dkm add
+#define STATIC_MEM          1
+
 int ModelArgumentInfo::setFromPointer(const Operand& operand,
                                       const ANeuralNetworksOperandType* type, void* data,
                                       uint32_t length) {
@@ -402,7 +405,10 @@ int StepExecutor::allocatePointerArgumentsToPool(std::vector<ModelArgumentInfo>*
     }
     hidl_memory hidlMemory;
     if (total > 0) {
-        memory->create(total);  // TODO check error
+#if 1==STATIC_MEM
+        if((int64_t)(memory->getHidlMemory().size()) < total)
+#endif
+            memory->create(total);  // TODO check error
         mMemories.add(memory);
     }
     return ANEURALNETWORKS_NO_ERROR;
@@ -506,8 +512,13 @@ int StepExecutor::startComputeOnDevice(sp<ExecutionCallback>* synchronizationCal
     // We separate the input & output pools so that we reduce the copying done if we
     // do an eventual remoting (hidl_memory->update()).  We could also use it to set
     // protection on read only memory but that's not currently done.
+#if 1==STATIC_MEM
+    static Memory inputPointerArguments;
+    static Memory outputPointerArguments;
+#else
     Memory inputPointerArguments;
     Memory outputPointerArguments;
+#endif
 
     // Layout the input and output data
     int n = allocatePointerArgumentsToPool(&mInputs, &inputPointerArguments);
